@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>RPG de Mesa</title>
+	<link rel="stylesheet" type="text/css" href="game.css">
+	<script src="https://kit.fontawesome.com/de117a8c71.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<!-- 	------------------------------------MENU-------------------------------------------- -->
+	<div id="menu-tab">
+		<button class="menu-btn" type="button" onclick="showTab('characterTab')">
+			<i class="fas fa-user"></i>
+		</button>
+		<button class="menu-btn" type="button" onclick="showTab('constitutionTab')">
+			<i class="fas fa-heartbeat"></i>
+		</button>
+		<button class="menu-btn" type="button" onclick="showTab('abilitiesTab')">
+			<i class="fas fa-hand-sparkles"></i>
+		</button>
+		<button class="menu-btn" type="button" onclick="showTab('loreTab')">
+			<i class="fas fa-book"></i>
+		</button>
+		<button class="menu-btn" type="button" onclick="showTab('inventoryTab')">
+			<i class="fas fa-shopping-bag"></i>
+		</button>
+		<button class="menu-btn" type="button" onclick="showTab('armorTab')">
+			<i class="fas fa-shield-alt"></i>
+		</button>
+		<button class="menu-btn" type="button" onclick="showTab('combatTab')">
+			<img src="assets/battle.svg" class="icon">
+		</button>
+		<button class="menu-btn" type="button" onclick="showTab('groupTab')">
+			<i class="fas fa-users"></i>
+		</button>
+		<button class="menu-btn" type="button" onclick="showTab('bestiaryTab')">
+			<i class="fas fa-dragon"></i>
+		</button>
+	</div>
+<!-- 	----------------------------------JOGO---------------------------------------- -->
+	<div id="game-tab">
+		<form>
+			<fieldset>
+				<p class="row"> NOME
+					<button type="button" onclick="logoutUser()" class="edit-btn"><i class="fas fa-sign-out-alt"></i></button>
+				</p>
+			</fieldset>
+			<!-- ----------------------------------PERSONAGEM---------------------------------------- -->
+			<fieldset id="characterTab">				
+				<legend>PERSONAGEM</legend>
+				<p id="characterLine" class="row">
+					NOME: <span id="character">NOME</span>
+					<button type="button" onclick="editLine('character')" class="edit-btn"><i class="fas fa-pen"></i></button>
+				</p>
+				<p id="characterEdit" class="row hidden">
+					<input type="text" id="character-input" class="col-10"/>
+					<button type="button" onclick="nameUpdate()" class="edit-btn"><i class="fas fa-check"></i></button>
+				</p>
+
+				<p id="raceLine" class="row ">
+					RAÇA: <span id="race">RAÇA</span>
+					<button type="button" onclick="editLine('race')" class="edit-btn"><i class="fas fa-pen"></i></button>
+				</p>
+				<p id="raceEdit" class="row hidden">
+					<select id="race-input" class="col-10" onchange="setRaceModifiers()">
+						<option value="" disabled selected hidden>RAÇA</option>
+						<option value="Humana">Humana</option>
+						<option value="Élfica">Élfica</option>
+						<option value="Anânica">Anânica</option>
+						<option value="Orc">Orc</option>
+					</select>
+					<button type="button" onclick="raceUpdate()" class="edit-btn"><i class="fas fa-check"></i></button>
+				</p>
+
+				<p id="sizeLine" class="row">
+					PORTE FÍSICO: <span id="size">PORTE FÍSICO</span>
+					<button type="button" onclick="editLine('size')" class="edit-btn"><i class="fas fa-pen"></i></button>
+				</p>
+				<p id="sizeEdit" class="row hidden">
+					<select id="size-input" class="col-10">
+						<option value="" disabled selected hidden>PORTE FÍSICO</option>
+						<option value="Esguio">Esguio</option>
+						<option value="Padrão">Padrão</option>
+						<option value="Musculoso">Musculoso</option>						
+						<option value="Corpulento">Corpulento</option>
+						<option value="Brutamontes">Brutamontes</option>
+					</select>
+					<button type="button" onclick="sizeUpdate()" class="edit-btn"><i class="fas fa-check"></i></button>
+				</p>
+
+				<p id="ageLine" class="row">
+					IDADE: <span id="age">0</span> anos
+					<button type="button" onclick="editLine('age')" class="edit-btn"><i class="fas fa-pen"></i></button>
+				</p>
+				<p id="ageEdit" class="row hidden">
+					IDADE: <input type="number" id="age-input" min="1" max="100"> anos
+					<button type="button" onclick="ageUpdate()" class="edit-btn"><i class="fas fa-check"></i></button>
+				</p>
+
+				<fieldset>
+					<legend align="center">HISTÓRICO</legend>
+					<div id="backgroundLine" class="row">
+						<div class="col-10">
+							<div id="background">Um pequeno histórico do personagem.</div>					
+						</div>
+						<div class="col-2">
+							<button type="button" onclick="editLine('background')" class="edit-btn"><i class="fas fa-pen"></i></button>
+						</div>
+					</div>
+
+					<div id="backgroundEdit" class="row hidden">
+						<div class="col-10">						
+							<textarea id="background-input" rows="10"></textarea>
+						</div>
+						<div class="col-2">
+							<button type="button" onclick="backgroundUpdate()" class="edit-btn"><i class="fas fa-check"></i></button>
+						</div>	
+					</div>								
+				</fieldset>
+
+				<fieldset id="achivementsLine">
+					<legend align="center">REALIZAÇÕES</legend>
+					<div id="achivementsHTML"></div>
+				</fieldset>
+			</fieldset>
+			<!-- ----------------------------------CONSTITUIÇÃO---------------------------------------- -->
+			<fieldset id="constitutionTab" class="hidden">
+				<legend>CONSTITUIÇÃO</legend>
+				<p>CORPO: <span id="body">0</span></p>
+				<p>MOVIMENTO: <span id="movement">0</span></p>
+				<p>MENTE: <span id="mind">0</span></p>
+				<p>ESPÍRITO: <span id="spirit">0</span></p>
+				<hr>
+				<p>VITALIDADE: <span id="vitality">0</span></p>
+				<p>RESISTÊNCIA: <span id="resistance">0</span></p>
+				<p>DEFESA: <span id="defense">0</span></p>
+			</fieldset>
+			<!-- ----------------------------------HABILIDADES---------------------------------------- -->
+			<fieldset id="abilitiesTab" class="hidden">
+				<legend>HABILIDADES</legend>
+				<p>EXPERIÊNCIA: <span id="experience">0</span></p>
+				<div class="row">
+					<button type="button" onclick="showAbilities()" class="col-6">Adquiridas</button>
+					<button type="button" onclick="buyAbilities()" class="col-6">Comprar</button>
+				</div>
+				<div id="myAbilitiesHTML"></div>
+				<div id="abilitiesHTML" class="hidden"></div>
+							
+			</fieldset>
+			<!-- ----------------------------------ERUDIÇÃO---------------------------------------- -->
+			<fieldset id="loreTab" class="hidden">
+				<legend>ERUDIÇÃO</legend>
+				<div id="loreHTML"></div>
+			</fieldset>
+			<!-- ----------------------------------INVENTÁRIO---------------------------------------- -->
+			<fieldset id="inventoryTab" class="hidden">
+				<legend>INVENTÁRIO</legend>
+				<p>CARGA SOBRANDO: <span id="bagPoints"></span><span> / </span><span id="bagPointsBase"></span></p>
+				<div id="inventoryHTML"></div>
+				<!-- Tônico - dá pontos de resistência
+				Poção revitalizante - dá pontos de vitalidade
+				Poção Pele de Pedra - aumenta defesa por x turnos -->
+			</fieldset>
+			<!-- ----------------------------------ARMADURA---------------------------------------- -->
+			<fieldset id="armorTab" class="hidden">
+				<legend>ARMADURA & VESTIMENTAS</legend>
+				<div id="armorHTML"></div>
+			</fieldset>
+			<!-- ----------------------------------COMBATE---------------------------------------- -->
+			<fieldset id="combatTab" class="hidden">
+				<legend>COMBATE</legend>
+				<p>No momento você não se encontra em combate.</p>				
+			</fieldset>
+			<!-- ----------------------------------GRUPO---------------------------------------- -->
+			<fieldset id="groupTab" class="hidden">
+				<legend>GRUPO</legend>			
+			</fieldset>
+			<!-- ----------------------------------BESTIÁRIO---------------------------------------- -->
+			<fieldset id="bestiaryTab" class="hidden">
+				<legend>BESTIÁRIO</legend>		
+			</fieldset>
+		</form>			
+	</div>
+
+	<script src="https://www.gstatic.com/firebasejs/4.5.2/firebase.js"></script>
+	<script type="text/javascript" src="game.js"></script>
+</body>
+</html>
